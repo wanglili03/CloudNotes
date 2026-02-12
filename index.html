@@ -9,6 +9,7 @@
     <link rel="apple-touch-icon" href="icon.png">
     <meta name="theme-color" content="#020617">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./note-env.js"></script>
     <link rel="icon" href="https://cdn.jsdmirror.com/gh/iTaoPu/CloudNotes@List/icon.png"/>
     <style>
         @import url('https://cdn.jsdmirror.com/gh/iTaoPu/CloudNotes@List/Inter/fonts.txt');
@@ -94,8 +95,25 @@
         if (cfgFromUrl) { try { apiFromUrl = atob(cfgFromUrl); } catch (e) { } }
         const shareId = urlParams.get('share');
 
-        let API_URL = apiFromUrl || localStorage.getItem('cf_notes_api') || "";
-        let ADMIN_KEY = localStorage.getItem('cf_notes_key') || "";
+        let baseUrl;
+        let adminKey;
+
+
+        // 方式一：使用 async/await
+        (async () => {
+            try {
+                const noteEnv = await getenv(); // 等待配置加载完成
+                baseUrl = noteEnv.BASEURL;
+                adminKey = noteEnv.ADMIN_KEY;
+            } catch (error) {
+                console.error('Could not initialize with config:', error);
+            }
+        })();
+
+        // let API_URL = apiFromUrl || localStorage.getItem('cf_notes_api') || "";
+        let API_URL = apiFromUrl || baseUrl || localStorage.getItem('cf_notes_api') || "";
+        // let ADMIN_KEY = localStorage.getItem('cf_notes_key') || "";
+        let ADMIN_KEY = adminKey || localStorage.getItem('cf_notes_key') || "";
 
         const app = document.getElementById('app');
 

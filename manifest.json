@@ -1,6 +1,6 @@
 {
-    "name": "CloudNotes",
-    "short_name": "CloudNotes",
+    "name": "金金咩的隐私笔记",
+    "short_name": "金金咩的隐私笔记",
     "description": "2026 隐私加密笔记 - 端到端加密保险库",
     "start_url": "./index.html",
     "display": "standalone",
